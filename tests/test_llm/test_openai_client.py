@@ -2,30 +2,27 @@ import pytest
 from llm.openai_client import OpenAIClient
 from types import SimpleNamespace
 
-
 def test_chat_returns_string(monkeypatch):
-    # Create a mock response object that mimics OpenAI's structure
-    mock_response = SimpleNamespace(
-        choices=[
-            SimpleNamespace(
-                message=SimpleNamespace(
-                    content="This is a test response"
-                )
+    # Create a mock object that replicates OpenAI's method chain
+    class MockCompletions:
+        def create(self, *args, **kwargs):
+            return SimpleNamespace(
+                choices=[SimpleNamespace(
+                    message=SimpleNamespace(content="This is a test response")
+                )]
             )
-        ]
-    )
 
-    def mock_create(*args, **kwargs):
-        return mock_response
+    class MockChat:
+        completions = MockCompletions()
 
-    # Patch the OpenAI API call
-    from openai import ChatCompletion
-    monkeypatch.setattr(ChatCompletion, "create", mock_create)
+    class MockClient:
+        chat = MockChat()
 
+    # Instantiate normally, then patch the `.client` attribute directly
     client = OpenAIClient()
-    result = client.chat([
-        {"role": "user", "content": "Hello!"}
-    ])
+    monkeypatch.setattr(client, "client", MockClient())
+
+    result = client.chat([{"role": "user", "content": "Hello!"}])
 
     assert isinstance(result, str)
     assert result == "This is a test response"
