@@ -3,6 +3,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-LLM_PROVIDER = os.getenv("LLM_PROVIDER", "openai")
-LLM_MODEL = os.getenv("LLM_MODEL", "gpt-4o")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+LLM_PROVIDER = os.getenv("LLM_PROVIDER")
+LLM_MODEL = os.getenv("LLM_MODEL")
+
+EMBEDDING_PROVIDER = os.getenv("EMBEDDING_PROVIDER")
+EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL")
