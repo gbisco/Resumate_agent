@@ -1,7 +1,7 @@
 import pytest
 import json
-from resume_agent.insight_agent import analyze_resume
-from resume_agent.resume_schema import Resume
+from resume_agents.insight_agent import analyze_resume
+from resume_agents.resume_schema import Resume
 
 
 @pytest.fixture
@@ -58,7 +58,7 @@ def test_analyze_resume_returns_valid_json(monkeypatch, sample_parsed_resume):
         def chat(self, messages):
             return mock_response  # Simulate the LLM returning valid JSON
 
-    from resume_agent import insight_agent
+    from resume_agents import insight_agent
     monkeypatch.setattr(insight_agent, "OpenAIClient", lambda: MockClient())
 
     result = analyze_resume(sample_parsed_resume)

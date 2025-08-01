@@ -1,7 +1,7 @@
 import json
-from resume_agent.parser import parse_resume
-from resume_agent.insight_agent import analyze_resume
-from job_agent.job_schema import JobPosting
+from resume_agents.parser import parse_resume
+from resume_agents.insight_agent import analyze_resume
+from job_agents.job_schema import JobPosting
 
 RESUME_PATH = "assets/sample_resume.pdf"
 JOB_DESCRIPTION_PATH = "assets/sample_job.txt"  # JSON format expected

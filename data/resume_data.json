@@ -1,0 +1,32 @@
+{
+  "name": "Gabriel Bisco",
+  "email": "gabriel@example.com",
+  "phone": "+1 555-123-4567",
+  "skills": [
+    "Python",
+    "GPT",
+    "Power BI",
+    "FastAPI",
+    "Automation"
+  ],
+  "experience": [
+    {
+      "title": "AI Integration Specialist",
+      "company": "Siemens",
+      "dates": "",
+      "description": "Built agentic tools to automate resume parsing and job matching."
+    }
+  ],
+  "education": [
+    {
+      "institution": "Georgia Tech",
+      "degree": "B.Sc.",
+      "field": "Computer Science",
+      "dates": "2018 - 2022"
+    }
+  ],
+  "certifications": [],
+  "awards": [],
+  "projects": [],
+  "summary": null
+}

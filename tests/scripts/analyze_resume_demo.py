@@ -1,7 +1,7 @@
 import json
-from resume_agent.parser import parse_resume
-from resume_agent.insight_agent import analyze_resume
-from job_agent.job_schema import JobPosting
+from resume_agents.parser import parse_resume
+from resume_agents.insight_agent import analyze_resume
+from job_agents.job_schema import JobPosting
 
 # Load and parse a sample resume
 parsed_resume = parse_resume("assets/sample_resume.pdf")

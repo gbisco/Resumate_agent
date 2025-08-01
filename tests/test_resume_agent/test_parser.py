@@ -1,8 +1,8 @@
 import os
 import json
 import pytest
-from resume_agent import parser
-from resume_agent.resume_schema import Resume
+from resume_agents import parser
+from resume_agents.resume_schema import Resume
 
 MOCK_LLM_RESPONSE = json.dumps({
     "name": "Gabriel Bisco",

@@ -1,6 +1,6 @@
 from openai import OpenAI
 from config.config import OPENAI_API_KEY, EMBEDDING_MODEL
-from llm.embedding_client import EmbeddingClient
+from embedding.embedding_client import EmbeddingClient
 
 class OpenAIEmbedder(EmbeddingClient):
     def __init__(self):

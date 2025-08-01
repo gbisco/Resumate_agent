@@ -9,10 +9,10 @@ def mock_embedder():
 
 
 def test_embedding_client_uses_default_router(monkeypatch, mock_embedder):
-    monkeypatch.setattr("llm.embedding_router.get_embedder", lambda: mock_embedder)
+    monkeypatch.setattr("embedding.embedding_router.get_embedder", lambda: mock_embedder)
 
     # Import AFTER monkeypatching
-    from llm.embedding_router import get_embedder
+    from embedding.embedding_router import get_embedder
 
     client = get_embedder()
     result = client.embed(["hello world"])
@@ -23,10 +23,10 @@ def test_embedding_client_uses_default_router(monkeypatch, mock_embedder):
 
 
 def test_embedding_client_embed_called_correctly(monkeypatch, mock_embedder):
-    monkeypatch.setattr("llm.embedding_router.get_embedder", lambda: mock_embedder)
+    monkeypatch.setattr("embedding.embedding_router.get_embedder", lambda: mock_embedder)
 
     # Import AFTER monkeypatching
-    from llm.embedding_router import get_embedder
+    from embedding.embedding_router import get_embedder
 
     client = get_embedder()
     client.embed(["This is a test."])

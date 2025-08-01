@@ -2,7 +2,7 @@ import fitz  # PyMuPDF
 import json
 import os
 from llm.llm_router import get_llm_client
-from resume_agent.resume_schema import Resume
+from resume_agents.resume_schema import Resume
 from pydantic import ValidationError
 from prompt_services.builders.resume_prompt_builder import build_resume_parser_prompt
 

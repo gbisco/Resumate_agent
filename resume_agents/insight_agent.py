@@ -1,9 +1,9 @@
 import json
 import re
 from llm.openai_client import OpenAIClient
-from resume_agent.resume_schema import Resume
+from resume_agents.resume_schema import Resume
 from prompt_services.builders.resume_prompt_builder import build_resume_insight_prompt
-from job_agent.job_schema import JobPosting
+from job_agents.job_schema import JobPosting
 
 
 
@@ -35,7 +35,7 @@ def analyze_resume(parsed_resume: Resume, job_description: JobPosting = None) ->
 
 
 if __name__ == "__main__":
-    from resume_agent.parser import parse_resume
+    from resume_agents.parser import parse_resume
     parsed = parse_resume("assets/sample_resume.pdf")
     if isinstance(parsed, Resume):
         insights = analyze_resume(parsed)
