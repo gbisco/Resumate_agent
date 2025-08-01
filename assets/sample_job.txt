@@ -1,0 +1,4 @@
+We are looking for a Machine Learning Engineer with strong Python skills and experience building NLP models. 
+The ideal candidate will have 2+ years of experience, familiarity with cloud platforms like AWS or GCP, and 
+the ability to work with cross-functional teams to deploy AI solutions at scale. Bonus if you have experience 
+with resume parsing or recruitment tech.
