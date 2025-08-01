@@ -1,4 +1,21 @@
-We are looking for a Machine Learning Engineer with strong Python skills and experience building NLP models. 
-The ideal candidate will have 2+ years of experience, familiarity with cloud platforms like AWS or GCP, and 
-the ability to work with cross-functional teams to deploy AI solutions at scale. Bonus if you have experience 
-with resume parsing or recruitment tech.
+{
+  "id": "job001",
+  "title": "Machine Learning Engineer",
+  "company": "OpenAI",
+  "location": "Remote",
+  "description": "We are looking for a Machine Learning Engineer to build and deploy production-grade models for real-world AI applications, including language, vision, and reasoning systems.",
+  "url": "https://openai.com/careers/job001",
+  "source": "MockSource",
+  "qualifications": [
+    "3+ years of experience in Python and deep learning frameworks (e.g., PyTorch, TensorFlow)",
+    "Experience with large language models (LLMs) and/or transformer architectures",
+    "Strong understanding of machine learning principles and optimization",
+    "Bachelor's or higher in Computer Science or related field"
+  ],
+  "recruiter": {
+    "name": "Jane Smith",
+    "title": "Senior Technical Recruiter",
+    "email": "jane.smith@openai.com",
+    "linkedin_url": "https://linkedin.com/in/janesmith"
+  }
+}

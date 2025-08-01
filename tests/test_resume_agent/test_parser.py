@@ -2,16 +2,52 @@ import os
 import json
 import pytest
 from resume_agent import parser
+from resume_agent.resume_schema import Resume
 
-# Mock response we'll use to avoid GPT call
 MOCK_LLM_RESPONSE = json.dumps({
     "name": "Gabriel Bisco",
     "email": "gabriel@example.com",
     "phone": "+1 555-123-4567",
     "skills": ["Python", "GPT", "Power BI"],
-    "experience": [],
-    "education": [],
-    "certifications": [],
+    "experience": [
+        {
+            "title": "AI Developer",
+            "company": "ResumeTech Inc.",
+            "dates": "Jan 2021 – Present",
+            "description": "Built intelligent resume parsing and analysis tools using OpenAI APIs."
+        }
+    ],
+    "education": [
+        {
+            "institution": "Georgia Tech",
+            "degree": "M.S.",
+            "field": "Computer Science",
+            "dates": "2023 – 2025"
+        }
+    ],
+    "certifications": [
+        {
+            "name": "AWS Certified Machine Learning – Specialty",
+            "issuer": "Amazon Web Services",
+            "date": "June 2023"
+        }
+    ],
+    "awards": [
+        {
+            "title": "Dean’s List",
+            "issuer": "Georgia Tech",
+            "date": "Fall 2023",
+            "description": "Awarded for academic excellence"
+        }
+    ],
+    "projects": [
+        {
+            "name": "Resume Tailor AI",
+            "description": "An AI assistant that rewrites resumes based on job descriptions.",
+            "technologies": ["Python", "LangChain", "OpenAI"],
+            "url": "https://github.com/gabrielbisco/resume-tailor-ai"
+        }
+    ],
     "summary": "An AI-focused developer with resume automation expertise."
 })
 
@@ -26,26 +62,30 @@ def mock_llm(monkeypatch):
 
 
 def test_parse_resume_creates_output_file(mock_llm, tmp_path):
-    # Setup
+    # Create dummy PDF
     test_pdf = "tests/assets/sample_resume.pdf"
     os.makedirs("tests/assets", exist_ok=True)
 
-    # Write dummy resume content into a fake PDF
-    import fitz  # PyMuPDF
+    import fitz  
     doc = fitz.open()
     page = doc.new_page()
     page.insert_text((50, 100), "Gabriel Bisco\nEmail: gabriel@example.com\nSkills: Python, GPT")
     doc.save(test_pdf)
     doc.close()
 
-    # Redirect output path to temporary directory
     parser.DATA_DIR = tmp_path
     parser.OUTPUT_PATH = tmp_path / "resume_data.json"
 
-    # Run
-    parser.parse_resume(test_pdf)
+    resume = parser.parse_resume(test_pdf)
 
-    # Assert output file was created and matches mock
+    assert isinstance(resume, Resume)
+    assert resume.name == "Gabriel Bisco"
+    assert "GPT" in resume.skills
+    assert resume.experience[0].title == "AI Developer"
+    assert resume.education[0].institution == "Georgia Tech"
+    assert resume.certifications[0].name.startswith("AWS Certified")
+    assert resume.projects[0].technologies == ["Python", "LangChain", "OpenAI"]
+
     assert os.path.exists(parser.OUTPUT_PATH)
     with open(parser.OUTPUT_PATH, "r") as f:
         result = json.load(f)
@@ -54,24 +94,22 @@ def test_parse_resume_creates_output_file(mock_llm, tmp_path):
 
 
 def test_parse_resume_real_pdf(tmp_path):
-    # Use the sample resume you just created
     test_pdf = "assets/sample_resume.pdf"
     assert os.path.exists(test_pdf), "Missing test resume PDF!"
 
-    # Override output location for test
     parser.DATA_DIR = tmp_path
     parser.OUTPUT_PATH = tmp_path / "resume_data.json"
 
-    # Run the parser (this uses the real LLM)
-    parser.parse_resume(test_pdf)
+    resume = parser.parse_resume(test_pdf)
 
-    # Validate the result
+    assert isinstance(resume, Resume)
+    assert resume.name
+    assert isinstance(resume.skills, list)
+    assert isinstance(resume.experience, list)
+    assert isinstance(resume.education, list)
+
     assert os.path.exists(parser.OUTPUT_PATH)
     with open(parser.OUTPUT_PATH, "r") as f:
         data = json.load(f)
-
     assert "name" in data
     assert "skills" in data
-    assert isinstance(data["skills"], list)
-    assert "experience" in data
-    assert isinstance(data["experience"], list)

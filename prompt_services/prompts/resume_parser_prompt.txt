@@ -1,5 +1,3 @@
-You are an intelligent and robust resume parser.
-
 You will be given raw, unstructured resume text as input. Your task is to extract key structured information and output a well-formatted, valid JSON object with the following fields:
 
 {
@@ -11,26 +9,45 @@ You will be given raw, unstructured resume text as input. Your task is to extrac
     {
       "title": "Job title",
       "company": "Company name",
-      "dates": "Employment dates (e.g., Jan 2020 – May 2023)",
+      "dates":"Employment dates (e.g., 'Jan 2020 – May 2023'). Always return as a string.",
       "description": "Brief description of responsibilities and achievements"
     }
-    // Include all relevant work experiences, not just the most recent
   ],
   "education": [
     {
       "institution": "Name of the school or university",
       "degree": "Degree obtained (e.g., B.Sc., MBA)",
       "field": "Field of study (e.g., Computer Science)",
-      "dates": "Dates attended (e.g., 2015 – 2019)"
+      "dates": "Dates attended (e.g., 2015 – 2019) Always return as a string."
     }
-    // Include all degrees or educational experiences
   ],
   "certifications": [
-    "Certification name with issuing organization and date if available"
-    // Include all certifications
+    {
+      "name": "Certification title (e.g., AWS Certified Developer)",
+      "issuer": "Issuing organization (e.g., Amazon)",
+      "date": "Date awarded (e.g., Jan 2023) Always return as a string."
+    }
   ],
-  "summary": "Professional summary or objective if present"
+  "awards": [
+    {
+      "title": "Name of award",
+      "issuer": "Who gave the award (if applicable)",
+      "date": "Date awarded (e.g., Spring 2022)",
+      "description": "Short explanation (optional)"
+    }
+  ],
+  "projects": [
+    {
+      "name": "Project title",
+      "description": "What the project does / why it matters",
+      "technologies": ["List", "of", "technologies", "used"],
+      "url": "Link to GitHub/demo if available"
+    }
+  ],
+  "summary": "Professional summary or objective statement if present"
 }
 
-Only respond with valid JSON. Do not include comments, explanation, or markdown formatting.
-
+Instructions:
+- Extract and include all relevant entries, not just the most recent.
+- If a section is not present in the resume, return an empty list or null.
+- Only respond with valid JSON. Do not include comments, explanation, or markdown formatting.

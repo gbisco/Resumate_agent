@@ -1,14 +1,14 @@
 You are an expert career analyst.
 
 You will be given:
-- A structured resume in JSON format:  
-  {{ resume_json }}
-{% if job_description %}
-- A target job description to compare against:  
-  {{ job_description }}
-{% endif %}
+- A structured resume in JSON format
+- A structured job posting in JSON format
 
-Your task is to analyze the resume {% if job_description %}and compare it to the job description{% endif %}, then return actionable career insights in the following JSON format:
+Resume fields may include: name, email, phone, summary, skills, experience, education, certifications, awards, and projects.
+
+Job posting fields may include: title, company, location, description, qualifications, and recruiter (name, title, contact).
+
+Your task is to analyze the resume {% if job_json %}and compare it to the job posting{% endif %}, then return actionable career insights in the following JSON format:
 
 {
   "candidate_summary": "Brief paragraph summarizing the candidate’s background, experience, and focus areas.",
@@ -27,14 +27,26 @@ Your task is to analyze the resume {% if job_description %}and compare it to the
     "Second suggestion",
     "..."
   ],
+  "notable_projects": [
+    "Highlight 1 (e.g., 'Built an AI résumé analyzer using GPT-4')",
+    "Highlight 2 (optional)",
+    "..."
+  ],
   "job_match_analysis": {
-    "match_rating": "High | Medium | Low",
-    "alignment_notes": "Explain how well the candidate aligns with the job requirements and where there are mismatches."
+    "match_rating": "High | Medium | Low | null",
+    "alignment_notes": "Explain how well the candidate aligns with the job posting. If no job is provided, set both fields to null."
   }
 }
 
 Instructions:
-- If no job description is provided, return `"match_rating": null` and `"alignment_notes": null`.
-- Base all insights strictly on the resume JSON—do not assume anything not present.
-- Keep responses informative but concise.
-- Output only valid JSON. Do not include any other text or formatting.
+- If no job posting is provided, return `"match_rating": null` and `"alignment_notes": null`.
+- Base all insights strictly on the resume and job JSON—do not assume anything not present.
+- Output only valid JSON. Do not include comments, explanations, or markdown formatting.
+
+RESUME:
+  {{ resume_json }}
+{% if job_json %}
+
+JOB:
+  {{ job_json }}
+{% endif %}

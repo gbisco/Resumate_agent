@@ -1,40 +1,62 @@
 import pytest
 import json
 from resume_agent.insight_agent import analyze_resume
+from resume_agent.resume_schema import Resume
 
 
 @pytest.fixture
 def sample_parsed_resume():
-    return {
-        "name": "John Doe",
-        "email": "john@example.com",
-        "skills": ["Python", "Machine Learning", "Data Analysis"],
-        "experience": [
+    return Resume(
+        name="John Doe",
+        email="john@example.com",
+        phone="+1 555-111-2222",
+        skills=["Python", "Machine Learning", "Data Analysis"],
+        experience=[
             {
-                "company": "Acme Inc.",
                 "title": "Data Scientist",
-                "duration": "2 years",
+                "company": "Acme Inc.",
+                "dates": "Jan 2021 – Dec 2022",
                 "description": "Built ML models for business forecasting"
             }
         ],
-        "education": [
+        education=[
             {
-                "school": "MIT",
-                "degree": "MSc Computer Science"
+                "institution": "MIT",
+                "degree": "MSc",
+                "field": "Computer Science",
+                "dates": "2018 – 2020"
             }
-        ]
-    }
+        ],
+        certifications=[],
+        awards=[],
+        projects=[],
+        summary="Experienced data scientist with a focus on business impact."
+    )
 
 
 def test_analyze_resume_returns_valid_json(monkeypatch, sample_parsed_resume):
     mock_response = json.dumps({
-        "summary": "Strong Python and ML background",
-        "suggestions": ["Add more cloud experience", "Quantify project impact"]
+        "candidate_summary": "Experienced data scientist with a background in machine learning and Python.",
+        "top_strengths": [
+            "Strong Python skills",
+            "Experience building ML models"
+        ],
+        "weaknesses_or_gaps": [
+            "Limited experience with cloud platforms"
+        ],
+        "improvement_suggestions": [
+            "Add cloud computing certifications"
+        ],
+        "notable_projects": [],
+        "job_match_analysis": {
+            "match_rating": "Medium",
+            "alignment_notes": "Relevant experience in ML, but lacks cloud exposure."
+        }
     })
 
     class MockClient:
         def chat(self, messages):
-            return mock_response  # directly return the fake JSON string
+            return mock_response  # Simulate the LLM returning valid JSON
 
     from resume_agent import insight_agent
     monkeypatch.setattr(insight_agent, "OpenAIClient", lambda: MockClient())
@@ -42,5 +64,8 @@ def test_analyze_resume_returns_valid_json(monkeypatch, sample_parsed_resume):
     result = analyze_resume(sample_parsed_resume)
 
     assert isinstance(result, dict)
-    assert "summary" in result
-    assert "suggestions" in result
+    assert "candidate_summary" in result
+    assert "top_strengths" in result
+    assert "weaknesses_or_gaps" in result
+    assert "job_match_analysis" in result
+    assert result["job_match_analysis"]["match_rating"] in ["High", "Medium", "Low", None]
