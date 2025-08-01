@@ -3,10 +3,12 @@ You are an expert career analyst.
 You will be given:
 - A structured resume in JSON format:  
   {{ resume_json }}
-- Optionally, a target job description:  
+{% if job_description %}
+- A target job description to compare against:  
   {{ job_description }}
+{% endif %}
 
-Your task is to analyze the resume (and compare to the job if provided) and return actionable career insights in the following JSON format:
+Your task is to analyze the resume {% if job_description %}and compare it to the job description{% endif %}, then return actionable career insights in the following JSON format:
 
 {
   "candidate_summary": "Brief paragraph summarizing the candidate’s background, experience, and focus areas.",
@@ -32,7 +34,7 @@ Your task is to analyze the resume (and compare to the job if provided) and retu
 }
 
 Instructions:
-- If no job description is provided, return it with null values.
-- Base all insights on the content and structure of the resume JSON—no assumptions.
-- Keep each section informative and concise.
-- Return only valid JSON, with no additional text or formatting.
+- If no job description is provided, return `"match_rating": null` and `"alignment_notes": null`.
+- Base all insights strictly on the resume JSON—do not assume anything not present.
+- Keep responses informative but concise.
+- Output only valid JSON. Do not include any other text or formatting.
