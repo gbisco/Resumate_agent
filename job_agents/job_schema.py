@@ -1,5 +1,6 @@
 from pydantic import BaseModel, HttpUrl, EmailStr, Field
 from typing import Optional, List
+import json
 import uuid
 
 
@@ -50,4 +51,4 @@ class JobPosting(BaseModel):
         return "\n".join(lines)
 
     def short_summary(self) -> str:
-        return f"{self.title} at {self.company} ({self.location})"
+        return f"{self.title} at {self.company_name} ({self.location})"
