@@ -30,5 +30,24 @@ class JobPosting(BaseModel):
         "extra": "allow"  # allow unknown fields in dict input
     }
 
+    def __str__(self) -> str:
+        base_fields = self.model_dump()
+        extra_fields = getattr(self, "__pydantic_extra__", {}) or {}
+
+        all_fields = {**base_fields, **extra_fields}
+
+        lines = []
+        for key, value in all_fields.items():
+            # Handle lists, dicts, and None cleanly
+            if isinstance(value, list):
+                value_str = ", ".join(str(v) for v in value)
+            elif isinstance(value, dict):
+                value_str = json.dumps(value, indent=2)
+            else:
+                value_str = str(value) if value is not None else "N/A"
+            lines.append(f"{key}: {value_str}")
+
+        return "\n".join(lines)
+
     def short_summary(self) -> str:
         return f"{self.title} at {self.company} ({self.location})"
